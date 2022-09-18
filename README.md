@@ -1,0 +1,1 @@
+# news-hub-microservices_news-collector-api
