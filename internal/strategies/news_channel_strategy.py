@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from bs4 import BeautifulSoup
 
 
-class NewsChannel(ABC):
+class NewsChannelStrategy(ABC):
     def __init__(self, name, base_url, latest_news_url):
         self._name = name
         self._base_url = base_url
