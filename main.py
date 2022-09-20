@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import news, channels
+from routers import v1_news, v1_channels
 
 app = FastAPI()
 
@@ -13,8 +13,8 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-app.include_router(news.router)
-app.include_router(channels.router)
+app.include_router(v1_news.router)
+app.include_router(v1_channels.router)
 
 
 @app.get("/")
