@@ -2,6 +2,7 @@ import http
 
 from fastapi import APIRouter, HTTPException, Depends
 
+from internal.domain.news_list import NewsList
 from internal.enums.news_channel import NewsChannel, get_news_channels_keys
 from internal.middlewares.validate_news_api_credentials import validate_news_api_credentials
 
@@ -17,6 +18,6 @@ def get_latest_by_channel(channel: str):
                             detail="'{}' is not a valid 'channel', should be any of these values [{}]"
                             .format(channel, ",".join(news_channels_keys)))
 
-    channel_news = NewsChannel[channel_formatted].value.get_latest_news()
+    channel_news_list = NewsChannel[channel_formatted].value.get_latest_news()
 
-    return channel_news
+    return NewsList(channel_news_list)
