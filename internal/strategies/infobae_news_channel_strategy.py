@@ -1,4 +1,4 @@
-import time
+import datetime
 
 from internal.domain.news import News
 from internal.strategies.news_channel_strategy import NewsChannelStrategy
@@ -17,8 +17,9 @@ class InfobaeNewsChannelStrategy(NewsChannelStrategy):
             image_url = image["src"]
             h2 = anchor.find("h2", class_="nd-feed-list-card-headline-lean")
             title = h2.text
+            published_at = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
 
-            news = News(title=title, image_url=image_url, channel=self._name, url=url, published_at=time.gmtime())
+            news = News(title=title, image_url=image_url, channel=self._name, url=url, published_at=published_at)
             news_list.append(news)
 
         return news_list
