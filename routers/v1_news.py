@@ -2,6 +2,7 @@ import http
 
 from fastapi import APIRouter, HTTPException, Depends
 
+from internal.domain.news_list import NewsList
 from internal.enums.news_channel import NewsChannel, get_news_channels_keys
 from internal.middlewares.validate_news_api_credentials import validate_news_api_credentials
 
@@ -21,9 +22,9 @@ def get_latest(channels: str = None):
     else:
         channel_names = news_channels_keys
 
-    news_list = []
+    channel_news_list = []
     for channel_name in channel_names:
         channel_news = NewsChannel[channel_name].value.get_latest_news()
-        news_list.extend(channel_news)
+        channel_news_list.extend(channel_news)
 
-    return news_list
+    return NewsList(channel_news_list)

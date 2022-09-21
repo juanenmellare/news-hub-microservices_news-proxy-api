@@ -25,7 +25,7 @@ def get_news_api_basic_authorization_header(base64_credentials: str = get_news_a
     return dict(Authorization='Basic {}'.format(base64_credentials))
 
 
-def assert_equals(value, expected):
+def assert_equals(value, expected) -> object:
     assert value == expected
 
 
@@ -51,7 +51,7 @@ def test_news_route_latest():
     response = client.get('/v1/news/latest', headers=get_news_api_basic_authorization_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
-    first_news = response.json()[0]
+    first_news = response.json()['news_list'][0]
     assert_equals(len(first_news), 5)
     assert_equals(first_news['channel'], 'Infobae')
     assert_key_exist(first_news['image_url'])
@@ -64,7 +64,7 @@ def test_news_route_latest_query_param_channels():
     response = client.get('/v1/news/latest?channels={}'.format(get_default_news_channel_name()), headers=get_news_api_basic_authorization_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
-    first_news = response.json()[0]
+    first_news = response.json()['news_list'][0]
     assert_equals(len(first_news), 5)
     assert_equals(first_news['channel'], 'Infobae')
     assert_key_exist(first_news['image_url'])
@@ -91,7 +91,7 @@ def test_channel_route_channel_param_news():
     response = client.get('/v1/channels/{}/latest'.format(get_default_news_channel_name()), headers=get_news_api_basic_authorization_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
-    first_news = response.json()[0]
+    first_news = response.json()['news_list'][0]
     assert_equals(len(first_news), 5)
     assert_equals(first_news['channel'], 'Infobae')
     assert_key_exist(first_news['image_url'])
