@@ -6,8 +6,9 @@ class NewsChannel(Enum):
     INFOBAE = InfobaeNewsChannelStrategy()
 
 
-def get_news_channels_keys():
-    keys = []
+def get_news_channels_names():
+    names = []
     for channel in NewsChannel:
-        keys.append(channel.name)
-    return keys
+        names.append(channel.name)
+
+    return names
