@@ -25,7 +25,7 @@ def get_news_api_basic_authorization_header(base64_credentials: str = get_news_a
     return dict(Authorization='Basic {}'.format(base64_credentials))
 
 
-def assert_equals(value, expected) -> object:
+def assert_equals(value, expected):
     assert value == expected
 
 
@@ -61,7 +61,8 @@ def test_news_route_latest():
 
 
 def test_news_route_latest_query_param_channels():
-    response = client.get('/v1/news/latest?channels={}'.format(get_default_news_channel_name()), headers=get_news_api_basic_authorization_header())
+    response = client.get('/v1/news/latest?channels={}'.format(get_default_news_channel_name()),
+                          headers=get_news_api_basic_authorization_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
     first_news = response.json()['news_list'][0]
@@ -81,14 +82,23 @@ def test_news_route_latest_query_param_channels_bad_request():
 
 
 def test_news_route_latest_query_param_channels_unauthorized():
-    response = client.get('/v1/news/latest?channels=foo', headers=get_news_api_basic_authorization_header("Zm9vOmZvbw=="))
+    response = client.get('/v1/news/latest?channels=foo',
+                          headers=get_news_api_basic_authorization_header("Zm9vOmZvbw=="))
 
     assert_equals(response.status_code, http.HTTPStatus.UNAUTHORIZED)
     assert_equals(response.text, '{{\"detail\":\"{}\"}}'.format(http.HTTPStatus.UNAUTHORIZED.phrase))
 
 
+def test_get_channels_names():
+    response = client.get('/v1/channels')
+
+    assert_equals(response.status_code, http.HTTPStatus.OK)
+    assert_equals(response.json()['channels'], ['INFOBAE'])
+
+
 def test_channel_route_channel_param_news():
-    response = client.get('/v1/channels/{}/latest'.format(get_default_news_channel_name()), headers=get_news_api_basic_authorization_header())
+    response = client.get('/v1/channels/{}/latest'.format(get_default_news_channel_name()),
+                          headers=get_news_api_basic_authorization_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
     first_news = response.json()['news_list'][0]
