@@ -14,7 +14,7 @@ class InfobaeNewsChannelStrategy(NewsChannelStrategy):
         for anchor in anchors:
             url = self._base_url + anchor["href"]
             image = anchor.find("img", class_="feed-list-image")
-            image_url = image["src"]
+            image_url = image["src"] if image else None
             h2 = anchor.find("h2", class_="nd-feed-list-card-headline-lean")
             title = h2.text
             published_at = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
