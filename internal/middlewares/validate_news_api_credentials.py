@@ -10,8 +10,8 @@ security = HTTPBasic()
 
 
 def validate_news_api_credentials(credentials: HTTPBasicCredentials = Depends(security)):
-    is_valid_username = secrets.compare_digest(Settings.get_news_api_username(), credentials.username)
-    is_valid_password = secrets.compare_digest(Settings.get_news_api_password(), credentials.password)
+    is_valid_username = secrets.compare_digest(Settings.get_api_username(), credentials.username)
+    is_valid_password = secrets.compare_digest(Settings.get_api_password(), credentials.password)
 
     are_credentials_valid = is_valid_username and is_valid_password
 

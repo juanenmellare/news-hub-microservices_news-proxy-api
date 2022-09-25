@@ -3,9 +3,9 @@ import os
 
 class Settings:
     @staticmethod
-    def get_news_api_username():
-        return os.getenv("NEWS_API_USERNAME", "admin")
+    def get_api_username():
+        return os.getenv("API_USERNAME", "admin")
 
     @staticmethod
-    def get_news_api_password():
-        return os.getenv("NEWS_API_PASSWORD", "password")
+    def get_api_password():
+        return os.getenv("API_PASSWORD", "password")

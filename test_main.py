@@ -16,12 +16,12 @@ def get_default_news_channel_name():
 
 
 def get_news_api_base64_credentials():
-    credentials = '{}:{}'.format(Settings.get_news_api_username(), Settings.get_news_api_password())
+    credentials = '{}:{}'.format(Settings.get_api_username(), Settings.get_api_password())
     encoding = encodings.utf_8.getregentry().name
     return base64.b64encode(bytes(credentials, encoding)).decode(encoding)
 
 
-def get_news_api_basic_authorization_header(base64_credentials: str = get_news_api_base64_credentials()):
+def get_api_basic_authentication_header(base64_credentials: str = get_news_api_base64_credentials()):
     return dict(Authorization='Basic {}'.format(base64_credentials))
 
 
@@ -48,7 +48,7 @@ def test_ping_route():
 
 
 def test_news_route_latest():
-    response = client.get('/v1/news/latest', headers=get_news_api_basic_authorization_header())
+    response = client.get('/v1/news/latest', headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
     first_news = response.json()['news_list'][0]
@@ -62,7 +62,7 @@ def test_news_route_latest():
 
 def test_news_route_latest_query_param_channels():
     response = client.get('/v1/news/latest?channels={}'.format(get_default_news_channel_name()),
-                          headers=get_news_api_basic_authorization_header())
+                          headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
     first_news = response.json()['news_list'][0]
@@ -75,7 +75,7 @@ def test_news_route_latest_query_param_channels():
 
 
 def test_news_route_latest_query_param_channels_bad_request():
-    response = client.get('/v1/news/latest?channels=foo', headers=get_news_api_basic_authorization_header())
+    response = client.get('/v1/news/latest?channels=foo', headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.BAD_REQUEST)
     assert_equals(response.text, '{\"detail\":\"\'channels\' query params should be any of these values [INFOBAE]\"}')
@@ -83,7 +83,7 @@ def test_news_route_latest_query_param_channels_bad_request():
 
 def test_news_route_latest_query_param_channels_unauthorized():
     response = client.get('/v1/news/latest?channels=foo',
-                          headers=get_news_api_basic_authorization_header("Zm9vOmZvbw=="))
+                          headers=get_api_basic_authentication_header("Zm9vOmZvbw=="))
 
     assert_equals(response.status_code, http.HTTPStatus.UNAUTHORIZED)
     assert_equals(response.text, '{{\"detail\":\"{}\"}}'.format(http.HTTPStatus.UNAUTHORIZED.phrase))
@@ -98,7 +98,7 @@ def test_get_channels_names():
 
 def test_channel_route_channel_param_news():
     response = client.get('/v1/channels/{}/latest'.format(get_default_news_channel_name()),
-                          headers=get_news_api_basic_authorization_header())
+                          headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
     first_news = response.json()['news_list'][0]
@@ -111,7 +111,7 @@ def test_channel_route_channel_param_news():
 
 
 def test_channel_route_channel_param_news_bad_request():
-    response = client.get('/v1/channels/foo/latest', headers=get_news_api_basic_authorization_header())
+    response = client.get('/v1/channels/foo/latest', headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.BAD_REQUEST)
     assert_equals(response.text,
@@ -119,7 +119,7 @@ def test_channel_route_channel_param_news_bad_request():
 
 
 def test_channel_route_channel_param_news_unauthorized():
-    response = client.get('/v1/channels/foo/latest', headers=get_news_api_basic_authorization_header("Zm9vOmZvbw=="))
+    response = client.get('/v1/channels/foo/latest', headers=get_api_basic_authentication_header("Zm9vOmZvbw=="))
 
     assert_equals(response.status_code, http.HTTPStatus.UNAUTHORIZED)
     assert_equals(response.text, '{{\"detail\":\"{}\"}}'.format(http.HTTPStatus.UNAUTHORIZED.phrase))
