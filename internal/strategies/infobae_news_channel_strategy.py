@@ -6,7 +6,7 @@ from internal.strategies.news_channel_strategy import NewsChannelStrategy
 
 class InfobaeNewsChannelStrategy(NewsChannelStrategy):
     def __init__(self):
-        super().__init__('Infobae', 'https://www.infobae.com', "/ultimas-noticias/")
+        super().__init__('Infobae', 'https://www.infobae.com', '/ultimas-noticias/')
 
     def _extract_latest_news_from_page(self, soup):
         news_list = []

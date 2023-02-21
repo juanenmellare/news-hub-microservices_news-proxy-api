@@ -18,7 +18,7 @@ app.include_router(v1_channels.router)
 
 
 @app.get("/")
-def ping():
+def index():
     return "news-proxy"
 
 

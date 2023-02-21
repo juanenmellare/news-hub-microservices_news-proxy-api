@@ -78,7 +78,7 @@ def test_news_route_latest_query_param_channels_bad_request():
     response = client.get('/v1/news/latest?channels=foo', headers=get_api_basic_authentication_header())
 
     assert_equals(response.status_code, http.HTTPStatus.BAD_REQUEST)
-    assert_equals(response.text, '{\"detail\":\"\'channels\' query params should be any of these values [INFOBAE]\"}')
+    assert_equals(response.text, '{\"detail\":\"\'channels\' query params should be any of these values [INFOBAE,TN]\"}')
 
 
 def test_news_route_latest_query_param_channels_unauthorized():
@@ -93,7 +93,7 @@ def test_get_channels_names():
     response = client.get('/v1/channels')
 
     assert_equals(response.status_code, http.HTTPStatus.OK)
-    assert_equals(response.json()['channels'], ['INFOBAE'])
+    assert_equals(response.json()['channels'], ['INFOBAE', 'TN'])
 
 
 def test_channel_route_channel_param_news():
@@ -115,7 +115,7 @@ def test_channel_route_channel_param_news_bad_request():
 
     assert_equals(response.status_code, http.HTTPStatus.BAD_REQUEST)
     assert_equals(response.text,
-                  '{\"detail\":\"\'foo\' is not a valid \'channel\', should be any of these values [INFOBAE]\"}')
+                  '{\"detail\":\"\'foo\' is not a valid \'channel\', should be any of these values [INFOBAE,TN]\"}')
 
 
 def test_channel_route_channel_param_news_unauthorized():
