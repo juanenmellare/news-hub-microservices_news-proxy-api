@@ -10,12 +10,12 @@ class InfobaeNewsChannelStrategy(NewsChannelStrategy):
 
     def _extract_latest_news_from_page(self, soup):
         news_list = []
-        anchors = soup.find_all("a", class_="nd-feed-list-card")
+        anchors = soup.find_all("a", class_="d23-feed-list-card")
         for anchor in anchors:
             url = self._base_url + anchor["href"]
-            image = anchor.find("img", class_="feed-list-image")
+            image = anchor.find("img", class_="d23-feed-list-image")
             image_url = image["src"] if image else None
-            h2 = anchor.find("h2", class_="nd-feed-list-card-headline-lean")
+            h2 = anchor.find("h2", class_="d23-feed-list-card-headline-lean")
             title = h2.text
             published_at = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
 
